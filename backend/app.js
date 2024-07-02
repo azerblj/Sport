@@ -5,6 +5,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 // import mongoose module
 const mongoose = require("mongoose");
+// import bcrypt module
+const bcrypt = require("bcrypt");
 // footDB =>DB name
 mongoose.connect('mongodb://127.0.0.1:27017/footDB');
 
@@ -16,7 +18,7 @@ const app = express();
 const Match = require("./models/match");
 const Team = require("./models/team");
 const Player = require("./models/player");
-const User = require("./models/user");
+const User = require("./models/user.js");
 
 
 /*************** App Configuration ************/
@@ -100,16 +102,21 @@ app.post("/api/matches", (req, res) => {
 app.put("/api/matches", (req, res) => {
     // Instructions
     console.log("Here into BL: Edit Match ",req.body);
-    for (let i = 0; i < matchTab.length; i++) {
-      if (matchTab[i].id==req.body.id)
-       {
-        matchTab[i]=req.body;
-        break;
+    Match.updateOne({_id:req.body._id},req.body).then(
+      (reponse)=>{console.log(this.reponse);
+        if(reponse.nModified == 1)
+          {
+        res.json({isEdited:"succes"})
+          }
+          else
+          {
+            res.json({isEdited:"echec"})
+          }
       }
 
-    }
+    )
 
-    res.json({isEdited:"succes"})
+
 });
 
 // Business Logic: Get All Matches
@@ -129,15 +136,18 @@ app.get("/api/matches", (req, res) => {
 app.delete("/api/matches/:id", (req, res) => {
     // Instructions
     console.log("Here into BL: Delete Match By ID",req.params.id);
-    for (let i = 0; i < matchTab.length; i++) {
-      if(matchTab[i].id == req.params.id)
-        {
-matchTab.splice(i,1);
-break;
+    Match.deleteOne({_id : req.params.id}).then(
+      (result)=>{console.log(result);
+        if(result.deletedCount == 1)
+          { res.json({isDeleted:true});}
+        else{
+          res.json({isDeleted:false});
+
         }
 
-    }
-    res.json({isDeleted : true});
+      }
+    );
+
 });
 
 // Business Logic: Get Match By ID
@@ -186,16 +196,19 @@ app.post("/api/teams", (req, res) => {
 app.put("/api/teams", (req, res) => {
   // Instructions
   console.log("here into edit team from BE",req.body);
-  for (let i = 0; i < teamsTab.length; i++) {
-    if (teamsTab[i].id==req.body.id)
-     {
-      teamsTab[i]=req.body;
-      break;
+  Team.updateOne({_id:req.body._id},req.body).then(
+    (reponse)=>{console.log(this.reponse);
+      if(reponse.nModified == 1)
+        {
+      res.json({isEdited:"succes"})
+        }
+        else
+        {
+          res.json({isEdited:"echec"})
+        }
     }
 
-  }
-
-  res.json({isEdited:"succes"})
+  )
 
 });
 
@@ -216,15 +229,18 @@ app.get("/api/teams", (req, res) => {
 app.delete("/api/teams/:id", (req, res) => {
   // Instructions
   console.log("Here into BL: Delete team By ID",req.params.id);
-  for (let i = 0; i < teamsTab.length; i++) {
-    if(teamsTab[i].id == req.params.id)
-      {
-teamsTab.splice(i,1);
-break;
+  Team.deleteOne({_id : req.params.id}).then(
+    (result)=>{console.log(result);
+      if(result.deletedCount == 1)
+        { res.json({isDeleted:true});}
+      else{
+        res.json({isDeleted:false});
+
       }
 
-  }
-  res.json({isDeleted : true});
+    }
+  );
+
 });
 
 // Business Logic: Get team By ID
@@ -251,16 +267,19 @@ app.post("/api/players", (req, res) => {
 app.put("/api/players", (req, res) => {
   // Instructions
   console.log("here into edit player from BE",req.body);
-  for (let i = 0; i < playersTab.length; i++) {
-    if (playersTab[i].id==req.body.id)
-     {
-      playersTab[i]=req.body;
-      break;
+  Player.updateOne({_id:req.body._id},req.body).then(
+    (reponse)=>{console.log(this.reponse);
+      if(reponse.nModified == 1)
+        {
+      res.json({isEdited:"succes"})
+        }
+        else
+        {
+          res.json({isEdited:"echec"})
+        }
     }
 
-  }
-
-  res.json({isEdited:"succes"})
+  )
 });
 
 // Business Logic: Get All players
@@ -279,15 +298,18 @@ app.get("/api/players", (req, res) => {
 app.delete("/api/players/:id", (req, res) => {
   // Instructions
   console.log("Here into BL: Delete player By ID");
-  for (let i = 0; i < playersTab.length; i++) {
-    if(playersTab[i].id == req.params.id)
-      {
-playersTab.splice(i,1);
-break;
+  Player.deleteOne({_id : req.params.id}).then(
+    (result)=>{console.log(result);
+      if(result.deletedCount == 1)
+        { res.json({isDeleted:true});}
+      else{
+        res.json({isDeleted:false});
+
       }
 
-  }
-  res.json({isDeleted : true});
+    }
+  );
+
 });
 
 // Business Logic: Get player By ID
@@ -298,6 +320,31 @@ app.get("/api/players/:id", (req, res) => {
     (doc)=>{res.json({ player : doc}
    )
            });
+
+});
+// Business Logic: Add user
+app.post("/api/users",(req,res)=>{
+  console.log("here into signup",req.body);
+ User.findOne({ email: req.body.email}).then(
+  (reponce)=>{console.log(reponce);
+    if (!reponce) {
+      bcrypt.hash(req.body.pwd,10).then(
+        (cryptedpwd)=>{console.log("here crypted pwd",cryptedpwd);
+          req.body.pwd=cryptedpwd;
+          let user=new User(req.body);
+          user.save();
+          res.json({isAdded:true});
+        }
+      );
+
+
+    } else {
+      res.json({isAdded:false});
+
+    }
+
+  }
+ );
 
 });
 
