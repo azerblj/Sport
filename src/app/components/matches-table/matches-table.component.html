@@ -1,0 +1,29 @@
+<table class="table">
+<tr>
+  <th>ID</th>
+  <th>Score One</th>
+  <th>Score Two</th>
+  <th>team one </th>
+  <th>team two</th>
+  <th>Result</th>
+  <th>Actions</th>
+</tr>
+<tr *ngFor="let i of T" >
+  <td>{{i._id}}</td>
+  <td>{{i.scoreOne}}</td>
+  <td>{{i.scoreTwo}}</td>
+  <td>{{i.teamOne}}</td>
+  <td>{{i.teamTwo}}</td>
+  <td  [ngStyle]="{color : scoreColor(i.scoreOne,i.scoreTwo)}">{{resultmatch(i.scoreOne , i.scoreTwo , i.teamOne)}}</td>
+  <td>
+    <button class="btn btn-succes" (click)="gotoinfo(i._id)" >Display</button>
+    <button class="btn btn-info" (click)="gotoeditmatch(i._id)" >Edit</button>
+    <button class="btn btn-danger" (click)="deleteMatch(i._id)" >Delete</button>
+  </td>
+</tr>
+
+
+
+
+
+</table>

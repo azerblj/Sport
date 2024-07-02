@@ -1,0 +1,48 @@
+<div class="hero overlay" style="background-image: url('assets/images/bg_3.jpg');">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-9 mx-auto text-center">
+        <h1 class="text-white">Login</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7" style="padding: 20%;" >
+        <form action="#" [formGroup]="loginForm" >
+          <div class="form-group">
+            <input type="email" class="form-control" placeholder="Email" formControlName="email" >
+          </div>
+          <div *ngIf="loginForm.controls['email'].invalid &&
+          (loginForm.controls['email'].touched ||
+          loginForm.controls['email'].dirty
+          )" >
+          <div *ngIf="loginForm.controls['email'].errors?.['required']" >Email is required</div>
+          <div *ngIf="loginForm.controls['email'].errors?.['email']" >Email is incorrect</div>
+        </div>
+          <div class="form-group">
+            <input type="password" class="form-control" placeholder="Mot de passe" formControlName="pwd" >
+          </div>
+          <div *ngIf="loginForm.controls['pwd'].invalid &&
+          (loginForm.controls['pwd'].touched ||
+          loginForm.controls['pwd'].dirty
+          )" >
+          <div *ngIf="loginForm.controls['pwd'].errors?.['required']" >pwd is required</div>
+
+        </div>
+
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary py-3 px-5" value="Login" [disabled]="loginForm.invalid" (click)="login()" >
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-4 ml-auto">
+
+
+      </div>
+    </div>
+  </div>
+</div>

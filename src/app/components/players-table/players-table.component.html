@@ -1,0 +1,29 @@
+<table class="table">
+
+  <tr>
+    <th>ID</th>
+    <th>name</th>
+    <th>Age</th>
+    <th>position</th>
+    <th>NBr</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let i of T" >
+    <td>{{i._id}}</td>
+    <td>{{i.name}}</td>
+    <td>{{i.age}}</td>
+    <td>{{i.position}}</td>
+    <td>{{i.num}}</td>
+
+    <td>
+      <button class="btn btn-succes" (click)="gotoplayer(i._id)" >Display</button>
+      <button class="btn btn-info" (click)="editPlayer(i._id)" >Edit</button>
+      <button class="btn btn-danger" (click)="delet(i._id)" >Delete</button>
+    </td>
+  </tr>
+
+
+
+
+
+  </table>

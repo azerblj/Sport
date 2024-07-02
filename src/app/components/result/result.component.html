@@ -1,0 +1,48 @@
+
+<div class="row">
+  <div class="col-lg-12">
+
+      <div class="d-flex team-vs">
+          <span class="score">
+            <span [ngStyle]="{color:scoreColor(matchobj?.scoreOne,matchobj?.scoreTwo)}" >{{matchobj?.scoreOne}}</span>
+            -
+            <span [ngStyle]="{color:scoreColor(matchobj?.scoreTwo,matchobj?.scoreOne)}" >{{matchobj?.scoreTwo}}</span>
+           </span>
+          <div class="team-1 w-50">
+              <div class="team-details w-100 text-center">
+                  <img src="assets/images/logo_1.png" alt="Image" class="img-fluid">
+
+                  <h3>
+                    <span [ngClass]="{
+                    win : matchobj?.scoreOne > matchobj?.scoreTwo,
+                    loss : matchobj?.scoreOne < matchobj?.scoreTwo,
+                    draw : matchobj?.scoreOne == matchobj?.scoreTwo
+                  } ">
+
+                  {{matchobj?.teamOne}}
+                </span>
+                  <span>(win)</span></h3>
+
+
+              </div>
+          </div>
+          <div class="team-2 w-50">
+              <div class="team-details w-100 text-center">
+                  <img src="assets/images/logo_2.png" alt="Image" class="img-fluid">
+                  <h3>
+                    <span [ngClass]="{
+                      win : matchobj?.scoreOne < matchobj?.scoreTwo,
+                      loss : matchobj?.scoreOne > matchobj?.scoreTwo,
+                      draw : matchobj?.scoreOne == matchobj?.scoreTwo
+                    } ">
+
+                    {{matchobj?.teamTwo}}
+                  </span>
+                     <span>(loss)</span></h3>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
