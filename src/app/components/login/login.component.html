@@ -37,6 +37,7 @@
           <div class="form-group">
             <input type="submit" class="btn btn-primary py-3 px-5" value="Login" [disabled]="loginForm.invalid" (click)="login()" >
           </div>
+          <div style="color: red;" >{{msg}}</div>
         </form>
       </div>
       <div class="col-lg-4 ml-auto">

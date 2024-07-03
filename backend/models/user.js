@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   lastName: String,
   email: String,
   pwd: String,
+  role:String
 });
 
 //affect name to matchSchema

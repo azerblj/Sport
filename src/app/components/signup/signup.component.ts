@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class SignupComponent implements OnInit {
   signupForm!:FormGroup;
   test:Boolean=true;
+  path:any;
 
 
   constructor(private formBuilder:FormBuilder,private userService:UserService,private router:Router) { }
@@ -21,11 +22,18 @@ export class SignupComponent implements OnInit {
       lastName: ['',[Validators.required,Validators.minLength(5)]],
       email: ['',[Validators.required,Validators.email]],
       pwd: ['',[Validators.required,Validators.minLength(6),Validators.maxLength(12)]]
+
     });
+     this.path=this.router.url;
 
   }
   signup()
     {
+      if (this.path == '/inscription') {
+        this.signupForm.value.role = 'user';
+      } else {
+        this.signupForm.value.role = 'admin';
+      }
       console.log("here signupForm",this.signupForm.value);
       this.userService.signup(this.signupForm.value).subscribe(
         (resp)=>{
@@ -37,7 +45,7 @@ export class SignupComponent implements OnInit {
 
           }
 
-        }
+       }
       );
     }
 

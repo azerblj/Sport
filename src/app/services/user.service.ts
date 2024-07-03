@@ -11,11 +11,11 @@ export class UserService {
 
   signup(obj:any)
   {
-    return this.http.post<{ isAdded:boolean }>(this.userUrl,obj);
+    return this.http.post<{ isAdded:boolean }>(this.userUrl + '/signup',obj);
   }
   login(obj:any)
   {
-    return this.http.post<{ user:any }>(this.userUrl,obj);
+    return this.http.post<{ msg:String,role:String}>(this.userUrl + '/login' ,obj);
   }
 
 }

@@ -323,7 +323,7 @@ app.get("/api/players/:id", (req, res) => {
 
 });
 // Business Logic: Add user
-app.post("/api/users",(req,res)=>{
+app.post("/api/users/signup",(req,res)=>{
   console.log("here into signup",req.body);
  User.findOne({ email: req.body.email}).then(
   (reponce)=>{console.log(reponce);
@@ -346,6 +346,33 @@ app.post("/api/users",(req,res)=>{
   }
  );
 
+});
+// Business Logic: Login
+app.post("/api/users/login",(req,res)=>
+{
+console.log("here login BE",req.body);
+User.findOne({email:req.body.email}).then(
+  (response)=>{
+    console.log("here response",response);
+    if (!response) {
+      res.json({msg:"check your Email"})
+
+    } else {
+      bcrypt.compare(req.body.pwd,response.pwd).then(
+        (cryptedResult)=>{
+          console.log("here cryptedresult",cryptedResult);
+          if (!cryptedResult) {
+            res.json({msg:"check your Password"});
+          } else {
+            res.json({msg:"welcome",role:response.role})
+
+          }
+         }
+      )
+
+    }
+  }
+)
 });
 
 

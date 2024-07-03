@@ -21,6 +21,7 @@ import { EditPlayerComponent } from './components/edit-player/edit-player.compon
 const routes: Routes = [
   {path:'signin' ,component:LoginComponent },
   {path:'inscription',component:SignupComponent},
+  {path:'signupAdmin',component:SignupComponent},
   {path:'',component:HomeComponent},
   {path:'addmatch',component:AddMatchComponent},
   {path:'addteam',component:AddTeamComponent},
